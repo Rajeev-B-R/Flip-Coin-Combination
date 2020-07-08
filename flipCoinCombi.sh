@@ -5,6 +5,20 @@ echo "**********Welcome to Flip Coin Combination**********"
 declare -A coin
 read -p "Number of times to flip a coin:" n
 echo "Number of times coin to be flipped: $n"
+
+sortCombi () {
+	for i in ${!coin[@]}
+        do
+                if [[ ${coin[$i]} -ge $flag ]]
+        then
+                flag=$((${coin[$i]}))
+                winCombi=$i
+                fi
+        done
+        coin[perc]=`echo $flag $n | awk '{print ($1/$2)*100}'`
+        echo "$winCombi is the winning combination. Percent: ${coin[perc]} %"
+}
+
 echo -e "1.Singlet Combination\n2.Doublet Combination\n3.Triple Combination"
 read -p "Enter option:" option
 case $option in
@@ -25,6 +39,7 @@ case $option in
 	echo "H ->" $perc "%"
 	perc=`echo ${coin[t]} $n |  awk '{print ($1/$2)*100}'`
 	echo "T ->" $perc "%"
+	sortCombi
 	;;
 	2)
 	for((i=0; i<$n; i++))
@@ -53,6 +68,7 @@ case $option in
         echo "HT ->" $perc "%"
         perc=`echo ${coin[hh]} $n | awk '{print ($1/$2)*1oo}'`        
 	echo "HH ->" $perc "%"
+	sortCombi
 	;;
 	3)
 	for((i=0; i<$n; i++))
@@ -101,5 +117,6 @@ case $option in
         echo "HHT ->" $perc "%"
         perc=`echo ${coin[hhh]} $n | awk '{print ($1/$2)*1oo}'`
         echo "HHH ->" $perc "%"
+	sortCombi
 	;;
 esac
